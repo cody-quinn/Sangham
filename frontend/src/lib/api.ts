@@ -1,4 +1,5 @@
 import { AxiosRequestConfig } from "axios";
+import { List } from "postcss/lib/list";
 import { json } from "stream/consumers";
 import http from "./http";
 
@@ -21,6 +22,7 @@ export interface Event extends BaseEvent {
 
   // Number of images in event
   count: number;
+  rsvps: JSON[];
 }
 
 export interface CreateEvent extends BaseEvent {}

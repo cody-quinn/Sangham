@@ -29,7 +29,7 @@ const EventPage: NextPage = () => {
           <>
             <div>
               <h1 className='text-5xl font-rubik font-black'>{result.title}</h1>
-              <sub className='text-sm font-rubik'>{result.organization}</sub>
+              <sub className='text-sm font-rubik'>🗄️{result.organization}</sub>
               <div className='pt-2'>
                 {result.website && <p>🌐 {result.website}</p>}
                 {result.phone_number && <p>📞 {result.phone_number}</p>}
@@ -38,6 +38,7 @@ const EventPage: NextPage = () => {
                   <p>📅 {dayjs(result.datetime).format("DD/MM/YYYY HH:mm:ss")}</p>
                 )}
                 {result.location && <p>📍 {result.location}</p>}
+                {result.rsvps.length+" RSVPS" && <p>✋{result.rsvps.length+" RSVPS"}</p>}
               </div>
             </div>
             <div className='flex flex-col gap-2'>

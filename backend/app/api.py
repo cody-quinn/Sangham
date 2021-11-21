@@ -7,8 +7,8 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from app.tasks.notificataions import notificationTask, removeOldiesTask
 
 app = FastAPI(
-    title="Garuda",
-    description="My Garuda API",
+    title="Sangham",
+    description="Sangham is a volunteer event board that minimize the volunteering experience for both the volunteer and event organizers.",
     version="1.0.0"
 )
 
@@ -23,7 +23,7 @@ async def load_schedule_or_create_blank():
 # from any domain on the internet
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5000"],
+    allow_origins=["http://0.0.0.0:5000","http://localhost:5000"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

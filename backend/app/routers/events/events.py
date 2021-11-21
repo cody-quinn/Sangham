@@ -90,6 +90,7 @@ def rsvp_event(
         return JSONResponse(content={'details': 'Post not found'}, status_code=404)
 
     # Appending the new RSVP to the RSVP element
+    print(dbo)
     rsvps = dbo["rsvps"]
     rsvps.append(body.dict())
     db["EVENT_COLLECTION"].update_one({"_id":ObjectId(id)},{"$set":{"rsvps":rsvps}})
