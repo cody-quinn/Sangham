@@ -10,5 +10,13 @@
     "**/.settings": true,
     "**/.factorypath": true,
     "**/node_modules": true
+  },
+  "[python]": {
+    "gitlens.codeLens.symbolScopes": ["!Module"],
+    "editor.wordBasedSuggestions": false,
+    "editor.tabSize": 4
+  },
+  "[typescript]": {
+    "editor.tabSize": 2
   }
 }
