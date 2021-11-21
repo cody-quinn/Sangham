@@ -12,7 +12,7 @@ from base64 import b64encode, b64decode
 from starlette.requests import Request
 from starlette.responses import Response
 
-from PIL import Image, UnidentifiedImageError
+from PIL import Image
 
 from datetime import datetime
 import io
@@ -35,6 +35,7 @@ async def image_upload(
         return JSONResponse(content={'details': 'Post not found'}, status_code=404)
 
     try:
+        #can be better
         image = Image.open(io.BytesIO(raw_image))
         #converting to JPEG no matter the source
         image = image.convert("RGB")
