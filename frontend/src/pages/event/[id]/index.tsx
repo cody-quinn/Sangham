@@ -48,7 +48,7 @@ const EventPage: NextPage = () => {
                 <ButtonLink color='primary' size='large' href={`/event/${result._id}/rsvp`}>
                   RSVP
                 </ButtonLink>
-                <ButtonLink color='secondary' size='large' href={`/event/${result._id}/rsvp`}>
+                <ButtonLink color='secondary' size='large' href={`/event/`}>
                   Back
                 </ButtonLink>
               </div>
