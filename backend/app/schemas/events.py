@@ -3,6 +3,8 @@ from typing import Optional, List
 from pydantic import BaseModel, Field, validator
 from datetime import datetime
 from email_validator import validate_email
+from phonenumbers import parse, is_valid_number
+from phonenumbers.phonenumberutil import NumberParseException
 
 class EventBase(BaseModel):
     title: str
@@ -17,10 +19,18 @@ class EventBase(BaseModel):
 
     @validator('email')
     def emailValidate(cls, v):
-        valid = validate_email(v)
-        if not valid:
+        if not validate_email(v):
             raise ValueError('email is not valid')
         return v
+    
+    @validator("phone_number")
+    def phoneValidate(cls,v):
+        try:
+            is_valid_number(parse(v))
+        except NumberParseException:
+            raise ValueError('number is not valid')
+        return v
+        
     
 class EventCreate(EventBase):
     pass
