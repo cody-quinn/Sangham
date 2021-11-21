@@ -17,6 +17,7 @@ const EventPreview: React.FC<EventPreviewProps> = ({ event }) => (
         <p className='text-md font-rubik'>{event.description}</p>
         <sub className='text-sm font-rubik'>{event.organization}</sub>
         <div className='pt-2'>
+          {event.website && <p>🌐 {event.website}</p>}
           {event.phone_number && <p>📞 {event.phone_number}</p>}
           {event.email && <p>📧 {event.email}</p>}
           {event.datetime && <p>📅 {dayjs(event.datetime).format("DD/MM/YYYY HH:mm:ss")}</p>}

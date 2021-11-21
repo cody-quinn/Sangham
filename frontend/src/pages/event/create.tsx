@@ -21,6 +21,7 @@ const Create: NextPage = () => {
 
   const [email, setEmail] = useState<string>("");
   const [phone, setPhone] = useState<string>("");
+  const [website, setWebsite] = useState<string>("");
   const [tags, setTags] = useState<Array<string>>([]);
 
   const [datetime, setDatetime] = useState<string>("");
@@ -36,6 +37,7 @@ const Create: NextPage = () => {
 
           email: email.length > 0 ? email : undefined,
           phone_number: phone.length > 0 ? phone : undefined,
+          website: website.length > 0 ? website : undefined,
           tags,
 
           location,
@@ -86,6 +88,11 @@ const Create: NextPage = () => {
             placeholder='Contact Phone Number (Optional)'
             onChange={(e) => setPhone(e.target.value)}
             value={phone}
+          />
+          <TextInput
+            placeholder='Website (Optional)'
+            onChange={(e) => setWebsite(e.target.value)}
+            value={website}
           />
           <TextInput
             placeholder='Event Time'

@@ -50,7 +50,7 @@ def get_events(
 )-> list[Any]:
     title_filter={"title":{"$regex":".*"+title+".*"}}
     org_filter = {"organization":{"$regex":".*"+organization+".*"}}
-    db_list = db["EVENT_COLLECTION"].find({"$and":[title_filter,org_filter]},{"images":0}).skip(offset).limit(limit)
+    db_list = db["EVENT_COLLECTION"].find({"$and":[title_filter,org_filter]},{"images":0}).sort("unixTime", 1).skip(offset).limit(limit)
     return [db_to_schema(event) for event in db_list]
 
 @router.get('/{id}')

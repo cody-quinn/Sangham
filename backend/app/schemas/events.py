@@ -10,6 +10,7 @@ class EventBase(BaseModel):
     organization: str
     email: Optional[str]
     phone_number: Optional[str]
+    website: Optional[str]
     tags: List[str]
     datetime: datetime
     location: str

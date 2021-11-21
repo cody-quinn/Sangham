@@ -9,6 +9,7 @@ export interface BaseEvent {
 
   email?: string;
   phone_number?: string;
+  website?: string;
   tags: string[];
 
   datetime: string;
