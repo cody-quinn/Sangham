@@ -10,10 +10,9 @@ class EventBase(BaseModel):
     organization: str
     email: Optional[str]
     phone_number: Optional[str]
-    address:str
     tags: List[str]
     datetime: datetime
-    latlong: List[float]
+    location: str
 
     @validator('email')
     def emailValidate(cls, v):
@@ -22,22 +21,12 @@ class EventBase(BaseModel):
             raise ValueError('email is not valid')
         return v
     
-    @validator('latlong')
-    def latlongValidate(cls, v):
-        #can be better
-        if len(v) != 2:
-            raise ValueError('2 coordinates are not being sent')
-        if type(v[0]) != float or type(v[1]) != float:
-            raise ValueError('values must be floats')
-
-        return v
-
 class EventCreate(EventBase):
     pass
 
 class Event(EventCreate):
     id: str = Field(alias='_id')
-    adddress: str
+    address: str
     count: int
     images : List[str]=[]
     

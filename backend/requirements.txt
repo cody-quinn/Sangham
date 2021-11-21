@@ -3,6 +3,9 @@ uvicorn
 
 python-decouple
 
+twilio
+APScheduler
+
 anyio==3.3.4
 cffi==1.15.0
 cryptography==35.0.0

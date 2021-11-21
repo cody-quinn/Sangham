@@ -3,16 +3,23 @@ from fastapi.responses import JSONResponse
 from fastapi.security import HTTPBearer
 
 from typing import Optional, List, Any
-from app.schemas import EventCreate, Event
+from app.schemas import EventCreate, Event, RsvpModel
 from app.database import get_db
 from app.lib import db_to_schema
-from app.lib import get_address
 from pymongo.database import Database
+
+from decouple import config
+from twilio.rest import Client as TwilioClient
+
+import datetime
+import time
 
 from bson.objectid import ObjectId
 router = APIRouter()
 
-token_auth_scheme = HTTPBearer() 
+token_auth_scheme = HTTPBearer()
+
+twilioClient = TwilioClient(config('TWILIO_ACCOUNT_SID'), config('TWILIO_AUTH_TOKEN'))
 
 @router.post('/')
 def post(
@@ -24,8 +31,9 @@ def post(
     event_in = event_in.dict()
     event_in["images"] = []
     event_in["count"] = 0
-    lat, long = event_in["latlong"]
-    event_in["address"] = get_address(lat,long)
+    event_in["rsvps"] = []
+    event_in["notificationsFullfilled"] = False
+    event_in["unixTime"] = time.mktime(event_in["datetime"].timetuple())
     result = events_collection.insert_one(event_in)
     ack = result.acknowledged
     return {"insertion":ack, "id": str(result.inserted_id)}
@@ -65,3 +73,25 @@ def del_event(
         return JSONResponse(content={"details": "Post does not exist"}, status_code=404)
     return JSONResponse(content={"details": "Post successfully deleted"}, status_code=204)
 
+
+@router.post('/{id}/rsvp')
+def rsvp_event(
+    id: str,
+    body: RsvpModel,
+    db: Database = Depends(get_db)
+):
+    # Stripping the phone number, example: (800) 284-2440 => 8002842440
+    body.phone = body.phone.replace(" ","").replace("(","").replace(")","").replace("-","")
+
+    # Getting the event RSVP is requested for 
+    dbo = db["EVENT_COLLECTION"].find_one({"_id":ObjectId(id)})
+
+    if not dbo:
+        return JSONResponse(content={'details': 'Post not found'}, status_code=404)
+
+    # Appending the new RSVP to the RSVP element
+    rsvps = dbo["rsvps"]
+    rsvps.append(body.dict())
+    db["EVENT_COLLECTION"].update_one({"_id":ObjectId(id)},{"$set":{"rsvps":rsvps}})
+
+    return {"success": True}
